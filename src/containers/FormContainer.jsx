@@ -7,6 +7,7 @@ import TextArea from "../components/TextArea";
 import Select from "../components/Select";
 import Button from "../components/Button";
 import EmailInput from "../components/EmailInput";
+import DatePickerInput from "../components/DatePicker"
 
 class FormContainer extends Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class FormContainer extends Component {
 
     this.state = {
       newUser: {
+        selectedDay: undefined,
         email: "",
         name: "",
         age: "",
@@ -22,6 +24,8 @@ class FormContainer extends Component {
         address2: "",
         address3: "",
         address4: "",
+        postcode: "",
+        pupilMobileNo: "",
         skills: [],
         about: ""
       },
@@ -52,6 +56,9 @@ class FormContainer extends Component {
     this.handleAddress2 = this.handleAddress2.bind(this);
     this.handleAddress3 = this.handleAddress3.bind(this);
     this.handleAddress4 = this.handleAddress4.bind(this);
+    this.handlePostCode = this.handlePostCode.bind(this);
+    this.handleDayChange = this.handleDayChange.bind(this);
+    this.handlePupilMobileNo = this.handlePupilMobileNo.bind(this);
   }
 
   /* This lifecycle hook gets executed when the component mounts */
@@ -67,6 +74,10 @@ class FormContainer extends Component {
       }),
       () => console.log(this.state.newUser)
     );
+  }
+
+  handleDayChange(day) {
+    this.setState({ selectedDay: day });
   }
 
   handleAge(e) {
@@ -128,6 +139,32 @@ class FormContainer extends Component {
         newUser: {
           ...prevState.newUser,
           address4: value
+        }
+      }),
+      () => console.log(this.state.newUser)
+    );
+  }
+
+  handlePostCode(e) {
+    let value = e.target.value;
+    this.setState(
+      prevState => ({
+        newUser: {
+          ...prevState.newUser,
+          postcode: value
+        }
+      }),
+      () => console.log(this.state.newUser)
+    );
+  }
+
+  handlePupilMobileNo(e) {
+    let value = e.target.value;
+    this.setState(
+      prevState => ({
+        newUser: {
+          ...prevState.newUser,
+          pupilMobileNo: value
         }
       }),
       () => console.log(this.state.newUser)
@@ -214,6 +251,7 @@ class FormContainer extends Component {
     e.preventDefault();
     this.setState({
       newUser: {
+        selectedDay: undefined,
         email: "",
         school: "",
         name: "",
@@ -224,6 +262,8 @@ class FormContainer extends Component {
         address2: "",
         address3: "",
         address4: "",
+        postcode: "",
+        pupilMobileNo: "",
         skills: [],
         about: ""
       }
@@ -231,6 +271,8 @@ class FormContainer extends Component {
   }
 
   render() {
+
+
     return (
 
       <form className="container-fluid" onSubmit={this.handleFormSubmit}>
@@ -253,118 +295,161 @@ class FormContainer extends Component {
         placeholder={"Select School"}
         handleChange={this.handleInput}
       />{" "}
+      {/* School Selection */}
+
+      <DatePickerInput
+      inputType={"date"}
+      name={"date"}
+      title={"Date of Referral"}
+      value={this.state.newUser.selectedDay}
+      onDayChange={this.handleDayChange}
+       />{" "}
+       {/* Date Picker */}
+
+      <Input
+        inputType={"text"}
+        title={"Pupil Name"}
+        name={"name"}
+        value={this.state.newUser.name}
+        placeholder={"Enter your name"}
+        handleChange={this.handleInput}
+      />{" "}
+      {/* Name of the user */}
+
+      <DatePickerInput
+      inputType={"date"}
+      name={"date"}
+      title={"Date of Birth"}
+      value={this.state.newUser.selectedDay}
+      onDayChange={this.handleDayChange}
+       />{" "}
+       {/* Date Picker */}
+
+      <Input
+        inputType={"number"}
+        name={"age"}
+        title={"Age"}
+        value={this.state.newUser.age}
+        placeholder={"Enter your age"}
+        handleChange={this.handleAge}
+      />{" "}
+      {/* Age */}
+
+      <Select
+        title={"School Year"}
+        name={"schoolYear"}
+        options={this.state.schoolYear}
+        value={this.state.newUser.schoolYear}
+        placeholder={"Choose"}
+        handleChange={this.handleInput}
+      />{" "}
+      {/* School Year Selection */}
+
+      <Select
+        title={"Gender"}
+        name={"gender"}
+        options={this.state.genderOptions}
+        value={this.state.newUser.gender}
+        placeholder={"Select Gender"}
+        handleChange={this.handleInput}
+      />{" "}
       {/* Gender Selection */}
 
-        <Input
-          inputType={"text"}
-          title={"Pupil Name"}
-          name={"name"}
-          value={this.state.newUser.name}
-          placeholder={"Enter your name"}
-          handleChange={this.handleInput}
-        />{" "}
-        {/* Name of the user */}
-        <Input
-          inputType={"number"}
-          name={"age"}
-          title={"Age"}
-          value={this.state.newUser.age}
-          placeholder={"Enter your age"}
-          handleChange={this.handleAge}
-        />{" "}
-        {/* Age */}
+      <Input
+        inputType={"address1"}
+        name={"address1"}
+        title={"Address line 1"}
+        value={this.state.newUser.address1}
+        placeholder={"Address Line 1"}
+        handleChange={this.handleAddress1}
+      />{" "}
+      {/* Address Line 1 */}
 
-        <Select
-          title={"School Year"}
-          name={"schoolYear"}
-          options={this.state.schoolYear}
-          value={this.state.newUser.schoolYear}
-          placeholder={"Choose"}
-          handleChange={this.handleInput}
-        />{" "}
-        {/* School Year Selection */}
+      <Input
+        inputType={"address2"}
+        name={"address2"}
+        title={"Address line 2"}
+        value={this.state.newUser.address2}
+        placeholder={"Address Line 2"}
+        handleChange={this.handleAddress2}
+      />{" "}
+      {/* Address Line 2 */}
 
-        <Select
-          title={"Gender"}
-          name={"gender"}
-          options={this.state.genderOptions}
-          value={this.state.newUser.gender}
-          placeholder={"Select Gender"}
-          handleChange={this.handleInput}
-        />{" "}
-        {/* Gender Selection */}
+      <Input
+        inputType={"address3"}
+        name={"address3"}
+        title={"Address line 3"}
+        value={this.state.newUser.address3}
+        placeholder={"Address Line 3"}
+        handleChange={this.handleAddress3}
+      />{" "}
+      {/* Address Line 3 */}
 
-        <Input
-          inputType={"address1"}
-          name={"address1"}
-          title={"Address line 1"}
-          value={this.state.newUser.address1}
-          placeholder={"Address Line 1"}
-          handleChange={this.handleAddress1}
-        />{" "}
-        {/* Address Line 1 */}
+      <Input
+        inputType={"address4"}
+        name={"address4"}
+        title={"Address line 4"}
+        value={this.state.newUser.address4}
+        placeholder={"Address Line 4"}
+        handleChange={this.handleAddress4}
+      />{" "}
+      {/* Address Line 4 */}
 
-        <Input
-          inputType={"address2"}
-          name={"address2"}
-          title={"Address line 2"}
-          value={this.state.newUser.address2}
-          placeholder={"Address Line 2"}
-          handleChange={this.handleAddress2}
-        />{" "}
-        {/* Address Line 2 */}
+      <Input
+        inputType={"postcode"}
+        name={"postcode"}
+        title={"Post Code"}
+        value={this.state.newUser.postcode}
+        placeholder={"Postcode"}
+        handleChange={this.postcode}
+      />{" "}
+      {/* Post Code */}
 
-        <Input
-          inputType={"address3"}
-          name={"address3"}
-          title={"Address line 3"}
-          value={this.state.newUser.address3}
-          placeholder={"Address Line 3"}
-          handleChange={this.handleAddress3}
-        />{" "}
-        {/* Address Line 3 */}
+      <Input
+        inputType={"pupilMobileNo"}
+        name={"pupilMobileNo"}
+        title={"Pupil Mobile Number"}
+        value={this.state.newUser.pupilMobileNo}
+        placeholder={"Pupil Mobile Number"}
+        handleChange={this.pupilMobileNo}
+      />{" "}
+      {/* Pupil Mobile Number */}
 
-        <Input
-          inputType={"address4"}
-          name={"address4"}
-          title={"Address line 4"}
-          value={this.state.newUser.address4}
-          placeholder={"Address Line 4"}
-          handleChange={this.handleAddress4}
-        />{" "}
-        {/* Address Line 4 */}
+      <CheckBox
+        title={"Skills"}
+        name={"skills"}
+        options={this.state.skillOptions}
+        selectedOptions={this.state.newUser.skills}
+        handleChange={this.handleCheckBox}
+      />{" "}
+      {/* Skill */}
 
-        <CheckBox
-          title={"Skills"}
-          name={"skills"}
-          options={this.state.skillOptions}
-          selectedOptions={this.state.newUser.skills}
-          handleChange={this.handleCheckBox}
-        />{" "}
-        {/* Skill */}
-        <TextArea
-          title={"Additional Comments from referrer"}
-          rows={10}
-          value={this.state.newUser.about}
-          name={"currentPetInfo"}
-          handleChange={this.handleTextArea}
-          placeholder={"Enter comments here..."}
-        />
-        {/* About you */}
-        <Button
-          action={this.handleFormSubmit}
-          type={"primary"}
-          title={"Submit"}
-          style={buttonStyle}
-        />{" "}
-        {/*Submit */}
-        <Button
-          action={this.handleClearForm}
-          type={"secondary"}
-          title={"Clear"}
-          style={buttonStyle}
-        />{" "}
-        {/* Clear the form */}
+      <TextArea
+        title={"Additional Comments from referrer"}
+        rows={10}
+        value={this.state.newUser.about}
+        name={"currentPetInfo"}
+        handleChange={this.handleTextArea}
+        placeholder={"Enter comments here..."}
+      />
+      {/* About you */}
+
+      <Button
+        action={this.handleFormSubmit}
+        type={"primary"}
+        title={"Submit"}
+        style={buttonStyle}
+      />{" "}
+      {/*Submit */}
+
+      <Button
+        action={this.handleClearForm}
+        type={"secondary"}
+        title={"Clear"}
+        style={buttonStyle}
+      />{" "}
+      {/* Clear the form */}
+
       </form>
 
     );

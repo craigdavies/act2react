@@ -5,11 +5,11 @@
   "main": "src/index.js",
   "private": true,
   "dependencies": {
-    "@mitchallen/react-email-input-field": "^0.1.6",
     "react": "^16.8.6",
     "react-bootstrap": "0.32.4",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "react-day-picker": "latest"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -31,5 +31,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "babel-preset-react": "^6.24.1",
+    "html-webpack-plugin": "^3.2.0"
   }
 }
