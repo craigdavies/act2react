@@ -7,7 +7,8 @@ import TextArea from "../components/TextArea";
 import Select from "../components/Select";
 import Button from "../components/Button";
 import EmailInput from "../components/EmailInput";
-import DatePickerInput from "../components/DatePicker"
+import DatePickerInput from "../components/DatePicker";
+import RadioButton from "../components/RadioButton";
 
 class FormContainer extends Component {
   constructor(props) {
@@ -18,7 +19,6 @@ class FormContainer extends Component {
         selectedDay: undefined,
         email: "",
         name: "",
-        age: "",
         gender: "",
         address1: "",
         address2: "",
@@ -26,7 +26,19 @@ class FormContainer extends Component {
         address4: "",
         postcode: "",
         pupilMobileNo: "",
+        pupilStruggles: "",
+        importantEvents: "",
+        detailsServices: "",
         skills: [],
+        referralReason: "",
+        referrerName: "",
+        referrerRelationship: "",
+        referrerContactInfo: "",
+        pupilConsent: [],
+        personSupported: [],
+        personLookedAfter: [],
+        freeSchoolMeals: [],
+        riskAssociated: [],
         about: ""
       },
 
@@ -42,10 +54,14 @@ class FormContainer extends Component {
 
       schoolYear: ["Year 7", "Year 8", "Year 9", "Year 10", "Year 11", "Year 12", "Year 13",
       "First(Scotland only)", "Second(Scotland only)", "Third(Scotland only)", "Four(Scotland only)",
-      "Five(Scotland only)", "Six(Scotland only)"]
+      "Five(Scotland only)", "Six(Scotland only)"],
+
+      radioOptions: ["Yes", "No"],
+      riskAssociatedOptions: ["Yes", "No", "Maybe"],
+      pupilConsent: ["Yes"]
+
     };
     this.handleTextArea = this.handleTextArea.bind(this);
-    this.handleAge = this.handleAge.bind(this);
     this.handlePupilName = this.handlePupilName.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleClearForm = this.handleClearForm.bind(this);
@@ -59,6 +75,17 @@ class FormContainer extends Component {
     this.handlePostCode = this.handlePostCode.bind(this);
     this.handleDayChange = this.handleDayChange.bind(this);
     this.handlePupilMobileNo = this.handlePupilMobileNo.bind(this);
+    this.handlePupilStruggles = this.handlePupilStruggles.bind(this);
+    this.handleImportantEvents = this.handleImportantEvents.bind(this);
+    this.handleDetailsServices = this.handleDetailsServices.bind(this);
+    this.handleReferralReason = this.handleReferralReason.bind(this);
+    this.handleReferrerName = this.handleReferrerName.bind(this);
+    this.handleReferrerRelationship =  this.handleReferrerRelationship.bind(this);
+    this.handleReferrerContactInfo = this.handleReferrerContactInfo.bind(this);
+    this.handlePupilConsent = this.handlePupilConsent.bind(this);
+    this.handlePersonSupported = this.handlePersonSupported.bind(this);
+    this.handleFreeSchoolMeals = this.handleFreeSchoolMeals.bind(this);
+    this.handleRiskAssociated = this.handleRiskAssociated.bind(this);
   }
 
   /* This lifecycle hook gets executed when the component mounts */
@@ -78,19 +105,6 @@ class FormContainer extends Component {
 
   handleDayChange(day) {
     this.setState({ selectedDay: day });
-  }
-
-  handleAge(e) {
-    let value = e.target.value;
-    this.setState(
-      prevState => ({
-        newUser: {
-          ...prevState.newUser,
-          age: value
-        }
-      }),
-      () => console.log(this.state.newUser)
-    );
   }
 
   handleAddress1(e) {
@@ -171,6 +185,47 @@ class FormContainer extends Component {
     );
   }
 
+  handlePupilStruggles(e) {
+    let value = e.target.value;
+    this.setState(
+      prevState => ({
+        newUser: {
+          ...prevState.newUser,
+          pupilStruggles: value
+        }
+      }),
+      () => console.log(this.state.newUser)
+    );
+  }
+
+  handleImportantEvents(e) {
+    console.log("Inside handleTextArea");
+    let value = e.target.value;
+    this.setState(
+      prevState => ({
+        newUser: {
+          ...prevState.newUser,
+          importantEvents: value
+        }
+      }),
+      () => console.log(this.state.newUser)
+    );
+  }
+
+  handleDetailsServices(e) {
+    console.log("Inside handleTextArea");
+    let value = e.target.value;
+    this.setState(
+      prevState => ({
+        newUser: {
+          ...prevState.newUser,
+          detailsServices: value
+        }
+      }),
+      () => console.log(this.state.newUser)
+    );
+  }
+
   handleInput(e) {
     let value = e.target.value;
     let name = e.target.name;
@@ -192,6 +247,58 @@ class FormContainer extends Component {
         newUser: {
           ...prevState.newUser,
           email: value
+        }
+      }),
+      () => console.log(this.state.newUser)
+    );
+  }
+
+  handleReferralReason(e) {
+    let value = e.target.value;
+    this.setState(
+      prevState => ({
+        newUser: {
+          ...prevState.newUser,
+          referralReason: value
+        }
+      }),
+      () => console.log(this.state.newUser)
+    );
+  }
+
+  handleReferrerName(e) {
+    let value = e.target.value;
+    this.setState(
+      prevState => ({
+        newUser: {
+          ...prevState.newUser,
+          referrerName: value
+        }
+      }),
+      () => console.log(this.state.newUser)
+    );
+  }
+
+  handleReferrerRelationship(e) {
+    let value = e.target.value;
+    this.setState(
+      prevState => ({
+        newUser: {
+          ...prevState.newUser,
+          referrerRelationship: value
+        }
+      }),
+      () => console.log(this.state.newUser)
+    );
+  }
+
+  handleReferrerContactInfo(e) {
+    let value = e.target.value;
+    this.setState(
+      prevState => ({
+        newUser: {
+          ...prevState.newUser,
+          referrerContactInfo: value
         }
       }),
       () => console.log(this.state.newUser)
@@ -229,6 +336,91 @@ class FormContainer extends Component {
     }));
   }
 
+  handlePersonSupported(e) {
+    const newSelection = e.target.value;
+    let newSelectionArray;
+
+    if (this.state.newUser.personSupported.indexOf(newSelection) > -1) {
+      newSelectionArray = this.state.newUser.personSupported.filter(
+        s => s !== newSelection
+      );
+    } else {
+      newSelectionArray = [...this.state.newUser.personSupported, newSelection];
+    }
+
+    this.setState(prevState => ({
+      newUser: { ...prevState.newUser, personSupported: newSelectionArray }
+    }));
+  }
+
+  handlePersonLookedAfter(e) {
+    const newSelection = e.target.value;
+    let newSelectionArray;
+
+    if (this.state.newUser.personLookedAfter.indexOf(newSelection) > -1) {
+      newSelectionArray = this.state.newUser.personLookedAfter.filter(
+        s => s !== newSelection
+      );
+    } else {
+      newSelectionArray = [...this.state.newUser.personLookedAfter, newSelection];
+    }
+
+    this.setState(prevState => ({
+      newUser: { ...prevState.newUser, personLookedAfter: newSelectionArray }
+    }));
+  }
+
+  handleFreeSchoolMeals(e) {
+    const newSelection = e.target.value;
+    let newSelectionArray;
+
+    if (this.state.newUser.freeSchoolMeals.indexOf(newSelection) > -1) {
+      newSelectionArray = this.state.newUser.freeSchoolMeals.filter(
+        s => s !== newSelection
+      );
+    } else {
+      newSelectionArray = [...this.state.newUser.freeSchoolMeals, newSelection];
+    }
+
+    this.setState(prevState => ({
+      newUser: { ...prevState.newUser, freeSchoolMeals: newSelectionArray }
+    }));
+  }
+
+  handleRiskAssociated(e) {
+    const newSelection = e.target.value;
+    let newSelectionArray;
+
+    if (this.state.newUser.riskAssociated.indexOf(newSelection) > -1) {
+      newSelectionArray = this.state.newUser.riskAssociated.filter(
+        s => s !== newSelection
+      );
+    } else {
+      newSelectionArray = [...this.state.newUser.riskAssociated, newSelection];
+    }
+
+    this.setState(prevState => ({
+      newUser: { ...prevState.newUser, riskAssociated: newSelectionArray }
+    }));
+  }
+
+  handlePupilConsent(e) {
+    const newSelection = e.target.value;
+    let newSelectionArray;
+
+    if (this.state.newUser.pupilConsent.indexOf(newSelection) > -1) {
+      newSelectionArray = this.state.newUser.pupilConsent.filter(
+        s => s !== newSelection
+      );
+    } else {
+      newSelectionArray = [...this.state.newUser.pupilConsent, newSelection];
+    }
+
+    this.setState(prevState => ({
+      newUser: { ...prevState.newUser, pupilConsent: newSelectionArray }
+    }));
+  }
+
   handleFormSubmit(e) {
     e.preventDefault();
     let userData = this.state.newUser;
@@ -255,7 +447,6 @@ class FormContainer extends Component {
         email: "",
         school: "",
         name: "",
-        age: "",
         schoolYear: "",
         gender: "",
         address1: "",
@@ -264,14 +455,25 @@ class FormContainer extends Component {
         address4: "",
         postcode: "",
         pupilMobileNo: "",
+        pupilStruggles: "",
+        importantEvents: "",
+        detailsServices: "",
         skills: [],
+        referralReason: "",
+        referrerName: "",
+        referrerRelationship: "",
+        referrerContactInfo: "",
+        pupilConsent: [],
+        personSupported: [],
+        personLookedAfter: [],
+        freeSchoolMeals: [],
+        riskAssociated: [],
         about: ""
       }
     });
   }
 
   render() {
-
 
     return (
 
@@ -324,16 +526,6 @@ class FormContainer extends Component {
       onDayChange={this.handleDayChange}
        />{" "}
        {/* Date Picker */}
-
-      <Input
-        inputType={"number"}
-        name={"age"}
-        title={"Age"}
-        value={this.state.newUser.age}
-        placeholder={"Enter your age"}
-        handleChange={this.handleAge}
-      />{" "}
-      {/* Age */}
 
       <Select
         title={"School Year"}
@@ -415,6 +607,54 @@ class FormContainer extends Component {
       />{" "}
       {/* Pupil Mobile Number */}
 
+      <TextArea
+        title={"Please tell us how the pupil is struggling emotionally (e.g sad, angry, anxious, etc)"}
+        rows={5}
+        value={this.state.newUser.pupilStruggles}
+        name={"pupilStruggles"}
+        handleChange={this.handlePupilStruggles}
+        placeholder={"Enter comments here..."}
+      />
+      {/* Pupil Struggles */}
+
+      <TextArea
+        title={"Any important events that have happened in the pupil's life that could be having an impact on their emotional wellbeing (e.g. beareavement, parental separation)?"}
+        rows={5}
+        value={this.state.newUser.importantEvents}
+        name={"importantEvents"}
+        handleChange={this.handleImportantEvents}
+        placeholder={"Enter comments here..."}
+      />
+      {/* Important Events */}
+
+      <RadioButton
+        title={"Is the Person being supported by any other statutory service? e.g CAHMS, Social Services etc"}
+        name={"personSupported"}
+        options={this.state.radioOptions}
+        selectedOptions={this.state.newUser.personSupported}
+        handleChange={this.handlePersonSupported}
+      />{" "}
+      {/* Person Supported By */}
+
+      <TextArea
+        title={"Details of services (if appropriate)"}
+        rows={1}
+        value={this.state.newUser.detailsServices}
+        name={"detailsServices"}
+        handleChange={this.handleDetailsServices}
+        placeholder={"Enter comments here..."}
+      />
+      {/* Detauls of Services */}
+
+      <RadioButton
+        title={"Is the person looked after by the Authority(LAC)?"}
+        name={"personLookedAfter"}
+        options={this.state.radioOptions}
+        selectedOptions={this.state.newUser.personLookedAfter}
+        handleChange={this.handlePersonSupported}
+      />{" "}
+      {/* Person Supported By */}
+
       <CheckBox
         title={"Skills"}
         name={"skills"}
@@ -424,11 +664,78 @@ class FormContainer extends Component {
       />{" "}
       {/* Skill */}
 
+      <RadioButton
+        title={"Is the pupil being provided a free school meal?"}
+        name={"freeSchoolMeals"}
+        options={this.state.radioOptions}
+        selectedOptions={this.state.newUser.freeSchoolMeals}
+        handleChange={this.handleFreeSchoolMeals}
+      />{" "}
+      {/* Person Supported By */}
+
+      <RadioButton
+        title={"Do you believe there to be a risk associated with the pupil?"}
+        name={"riskAssociated"}
+        options={this.state.riskAssociatedOptions}
+        selectedOptions={this.state.newUser.riskAssociated}
+        handleChange={this.handleRiskAssociated}
+      />{" "}
+      {/* Associated Risk with the pupil */}
+
+      <Input
+      inputType={"referralReason"}
+      name={"referralReason"}
+      title={"Reason For Referral"}
+      value={this.state.newUser.referralReason}
+      placeholder={"Reason for referral"}
+      handleChange={this.handleReferralReason}
+      />
+      {/* Reason for Referral */}
+
+      <Input
+        inputType={"referrerName"}
+        name={"referrerName"}
+        title={"Referrer's Name"}
+        value={this.state.newUser.referrerName}
+        placeholder={"Name of referrer"}
+        handleChange={this.handleReferrerName}
+      />{" "}
+      {/* Referrer's Name*/}
+
+      <Input
+        inputType={"referrerRelationship"}
+        name={"referrerRelationship"}
+        title={"Referrer's Relationship to pupil"}
+        value={this.state.newUser.referrerRelationship}
+        placeholder={"Referrer relationship"}
+        handleChange={this.handleReferrerRelationship}
+      />{" "}
+      {/* Referrer's Relationship to pupil*/}
+
+      <Input
+        inputType={"referrerContactInfo"}
+        name={"referrerContactInfo"}
+        title={"Referrer's Contact Information"}
+        value={this.state.newUser.referrerContactInfo}
+        placeholder={"Referrer contact information"}
+        handleChange={this.handleReferrerContactInfo}
+      />{" "}
+      {/* Referrer's Relationship to pupil*/}
+
+      <CheckBox
+        title={"Pupil consent to counselling"}
+        name={"pupilConsent"}
+        options={this.state.pupilConsent}
+        selectedOptions={this.state.newUser.pupilConsent}
+        handleChange={this.handlePupilConsent}
+      />{" "}
+      {/* Pupil Consent */}
+
       <TextArea
         title={"Additional Comments from referrer"}
-        rows={10}
+        rows={5}
         value={this.state.newUser.about}
-        name={"currentPetInfo"}
+        name={"additionalComments"}
         handleChange={this.handleTextArea}
         placeholder={"Enter comments here..."}
       />
