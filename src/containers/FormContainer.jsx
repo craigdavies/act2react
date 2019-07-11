@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactDOM from 'react-dom';
 
 /* Import Components */
 import CheckBox from "../components/CheckBox";
@@ -421,23 +422,33 @@ class FormContainer extends Component {
     }));
   }
 
+
+
   handleFormSubmit(e) {
-    e.preventDefault();
+
     let userData = this.state.newUser;
 
-    fetch("http://example.com", {
-      method: "POST",
-      body: JSON.stringify(userData),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      }
-    }).then(response => {
-      response.json().then(data => {
-        console.log("Successful" + data);
-      });
-    });
+    //display message and name to user
+    ReactDOM.render(<p>Hello, {userData.email}{userData.schoolYear}</p>, document.getElementById('userInfo'));
+    e.preventDefault();
   }
+
+    // e.preventDefault();
+    // let userData = this.state.newUser;
+    //
+    // fetch("http://example.com", {
+    //   method: "POST",
+    //   body: JSON.stringify(userData),
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json"
+    //   }
+    // }).then(response => {
+    //   response.json().then(data => {
+    //     console.log("Successful" + data);
+    //   });
+    // });
+  // }
 
   handleClearForm(e) {
     e.preventDefault();
@@ -477,6 +488,7 @@ class FormContainer extends Component {
 
     return (
 
+
       <form className="container-fluid" onSubmit={this.handleFormSubmit}>
 
       <EmailInput
@@ -486,6 +498,7 @@ class FormContainer extends Component {
         id='email'
         value={this.state.email}
         placeholder='Enter your email'
+        ref="EmailInput"
         onChange={this.handleEmailInput}
       />
 
@@ -756,6 +769,10 @@ class FormContainer extends Component {
         style={buttonStyle}
       />{" "}
       {/* Clear the form */}
+
+      <div id="userInfo">
+      {this.state.message}
+      </div>
 
       </form>
 
