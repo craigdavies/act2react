@@ -11,15 +11,19 @@ import EmailInput from "../components/EmailInput";
 import DatePickerInput from "../components/DatePicker";
 import RadioButton from "../components/RadioButton";
 
+//TODO RADIO BUTTONS ARENT UPDATING STATE WHEN CHANGING BETWEEN CHOICES...NEED TO FIX THIS.
 class FormContainer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       newUser: {
-        selectedDay: undefined,
         email: "",
+        school: "",
+        dateReferral: undefined,
         name: "",
+        dateBirth: undefined,
+        schoolYear: "",
         gender: "",
         address1: "",
         address2: "",
@@ -29,18 +33,18 @@ class FormContainer extends Component {
         pupilMobileNo: "",
         pupilStruggles: "",
         importantEvents: "",
+        personSupported: [],
         detailsServices: "",
+        personLookedAfter: [],
         skills: [],
+        freeSchoolMeals: [],
+        riskAssociated: [],
         referralReason: "",
         referrerName: "",
         referrerRelationship: "",
         referrerContactInfo: "",
         pupilConsent: [],
-        personSupported: [],
-        personLookedAfter: [],
-        freeSchoolMeals: [],
-        riskAssociated: [],
-        about: ""
+        additionalComments: ""
       },
 
       schoolOptions: ["Bishopston", "Birchgrove", "Bishop Gore", "Bishop Vaughan", "Bryn Tawe",
@@ -62,7 +66,8 @@ class FormContainer extends Component {
       pupilConsent: ["Yes"]
 
     };
-    this.handleTextArea = this.handleTextArea.bind(this);
+
+    this.handleAdditionalComments = this.handleAdditionalComments.bind(this);
     this.handlePupilName = this.handlePupilName.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleClearForm = this.handleClearForm.bind(this);
@@ -74,7 +79,8 @@ class FormContainer extends Component {
     this.handleAddress3 = this.handleAddress3.bind(this);
     this.handleAddress4 = this.handleAddress4.bind(this);
     this.handlePostCode = this.handlePostCode.bind(this);
-    this.handleDayChange = this.handleDayChange.bind(this);
+    this.handleDateReferralChange = this.handleDateReferralChange.bind(this);
+    this.handleDateBirthChange = this.handleDateBirthChange.bind(this);
     this.handlePupilMobileNo = this.handlePupilMobileNo.bind(this);
     this.handlePupilStruggles = this.handlePupilStruggles.bind(this);
     this.handleImportantEvents = this.handleImportantEvents.bind(this);
@@ -85,6 +91,7 @@ class FormContainer extends Component {
     this.handleReferrerContactInfo = this.handleReferrerContactInfo.bind(this);
     this.handlePupilConsent = this.handlePupilConsent.bind(this);
     this.handlePersonSupported = this.handlePersonSupported.bind(this);
+    this.handlePersonLookedAfter = this.handlePersonLookedAfter.bind(this);
     this.handleFreeSchoolMeals = this.handleFreeSchoolMeals.bind(this);
     this.handleRiskAssociated = this.handleRiskAssociated.bind(this);
   }
@@ -104,8 +111,32 @@ class FormContainer extends Component {
     );
   }
 
-  handleDayChange(day) {
-    this.setState({ selectedDay: day });
+  handleDateReferralChange(e) {
+    let value = e;
+
+    this.setState(
+      prevState => ({
+        newUser: {
+          ...prevState.newUser,
+          dateReferral: value
+        }
+      }),
+      () => console.log(this.state.newUser)
+    );
+  }
+
+  handleDateBirthChange(e) {
+    let value = e;
+
+    this.setState(
+      prevState => ({
+        newUser: {
+          ...prevState.newUser,
+          dateBirth: value
+        }
+      }),
+      () => console.log(this.state.newUser)
+    );
   }
 
   handleAddress1(e) {
@@ -306,14 +337,14 @@ class FormContainer extends Component {
     );
   }
 
-  handleTextArea(e) {
+  handleAdditionalComments(e) {
     console.log("Inside handleTextArea");
     let value = e.target.value;
     this.setState(
       prevState => ({
         newUser: {
           ...prevState.newUser,
-          about: value
+          additionalComments: value
         }
       }),
       () => console.log(this.state.newUser)
@@ -422,17 +453,15 @@ class FormContainer extends Component {
     }));
   }
 
-
-
   handleFormSubmit(e) {
 
     let userData = this.state.newUser;
+    let data = JSON.stringify(userData);
 
     //display message and name to user
-    ReactDOM.render(<p>Hello, {userData.email}{userData.schoolYear}</p>, document.getElementById('userInfo'));
+    ReactDOM.render(<p>Payload: {data}</p>, document.getElementById('userInfo'));
     e.preventDefault();
   }
-
     // e.preventDefault();
     // let userData = this.state.newUser;
     //
@@ -454,10 +483,11 @@ class FormContainer extends Component {
     e.preventDefault();
     this.setState({
       newUser: {
-        selectedDay: undefined,
         email: "",
         school: "",
+        dateReferral: undefined,
         name: "",
+        dateBirth: undefined,
         schoolYear: "",
         gender: "",
         address1: "",
@@ -468,18 +498,18 @@ class FormContainer extends Component {
         pupilMobileNo: "",
         pupilStruggles: "",
         importantEvents: "",
+        personSupported: [],
         detailsServices: "",
+        personLookedAfter: [],
         skills: [],
+        freeSchoolMeals: [],
+        riskAssociated: [],
         referralReason: "",
         referrerName: "",
         referrerRelationship: "",
         referrerContactInfo: "",
         pupilConsent: [],
-        personSupported: [],
-        personLookedAfter: [],
-        freeSchoolMeals: [],
-        riskAssociated: [],
-        about: ""
+        additionalComments: ""
       }
     });
   }
@@ -487,7 +517,6 @@ class FormContainer extends Component {
   render() {
 
     return (
-
 
       <form className="container-fluid" onSubmit={this.handleFormSubmit}>
 
@@ -513,13 +542,13 @@ class FormContainer extends Component {
       {/* School Selection */}
 
       <DatePickerInput
-      inputType={"date"}
-      name={"date"}
+      inputType={"dateReferral"}
+      name={"dateReferral"}
       title={"Date of Referral"}
-      value={this.state.newUser.selectedDay}
-      onDayChange={this.handleDayChange}
-       />{" "}
-       {/* Date Picker */}
+      value={this.state.newUser.dateReferral}
+      onDayChange={this.handleDateReferralChange}
+      />{" "}
+      {/* Date Picker */}
 
       <Input
         inputType={"text"}
@@ -532,11 +561,11 @@ class FormContainer extends Component {
       {/* Name of the user */}
 
       <DatePickerInput
-      inputType={"date"}
-      name={"date"}
+      inputType={"dateBirth"}
+      name={"dateBirth"}
       title={"Date of Birth"}
-      value={this.state.newUser.selectedDay}
-      onDayChange={this.handleDayChange}
+      value={this.state.newUser.dateBirth}
+      onDayChange={this.handleDateBirthChange}
        />{" "}
        {/* Date Picker */}
 
@@ -606,7 +635,7 @@ class FormContainer extends Component {
         title={"Post Code"}
         value={this.state.newUser.postcode}
         placeholder={"Postcode"}
-        handleChange={this.postcode}
+        handleChange={this.handlePostCode}
       />{" "}
       {/* Post Code */}
 
@@ -616,7 +645,7 @@ class FormContainer extends Component {
         title={"Pupil Mobile Number"}
         value={this.state.newUser.pupilMobileNo}
         placeholder={"Pupil Mobile Number"}
-        handleChange={this.pupilMobileNo}
+        handleChange={this.handlePupilMobileNo}
       />{" "}
       {/* Pupil Mobile Number */}
 
@@ -664,7 +693,7 @@ class FormContainer extends Component {
         name={"personLookedAfter"}
         options={this.state.radioOptions}
         selectedOptions={this.state.newUser.personLookedAfter}
-        handleChange={this.handlePersonSupported}
+        handleChange={this.handlePersonLookedAfter}
       />{" "}
       {/* Person Supported By */}
 
@@ -747,9 +776,9 @@ class FormContainer extends Component {
       <TextArea
         title={"Additional Comments from referrer"}
         rows={5}
-        value={this.state.newUser.about}
+        value={this.state.newUser.additionalComments}
         name={"additionalComments"}
-        handleChange={this.handleTextArea}
+        handleChange={this.handleAdditionalComments}
         placeholder={"Enter comments here..."}
       />
       {/* About you */}
