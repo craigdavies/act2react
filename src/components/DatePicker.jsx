@@ -8,7 +8,7 @@ const DatePickerInput = props => {
     return (
 
       <div className="form-group">
-        <label for={props.name}> {props.title}</label>
+        <label htmlFor={props.name}> {props.title}</label>
         <br />
         <DayPickerInput
           className="form-control"
